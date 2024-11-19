@@ -1,0 +1,25 @@
+.contactContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 70vh; 
+    text-align: center;
+}
+
+.iconsContainer {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 20px;
+}
+
+.icon {
+    color: #555;
+    transition: transform 0.3s, color 0.3s;
+}
+
+.icon:hover {
+    color: purple; 
+    transform: scale(1.2); 
+}
