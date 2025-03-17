@@ -1,18 +1,19 @@
-FROM openjdk:17-jdk-slim
+FROM ubuntu:latest AS build
 
-RUN apt-get update && apt-get install -y maven
+RUN apt-get update && apt-get install -y openjdk-17-jdk maven
 
 WORKDIR /app
-
-COPY pom.xml /app/
-
-RUN mvn dependency:go-offline
-
-COPY src /app/src
+COPY . .
 
 RUN mvn clean package -DskipTests
 
 
+FROM openjdk:17-slim
+
+WORKDIR /app
+
 EXPOSE 8080
 
-CMD ["java", "-jar", "target/backend-1.0-SNAPSHOT.jar"]
+COPY --from=build /app/target/backend-1.0-SNAPSHOT.jar app.jar
+
+ENTRYPOINT ["java", "-jar", "app.jar"]
