@@ -1,27 +1,18 @@
+FROM openjdk:17-jdk-slim
 
-FROM maven:3.8.6-openjdk-11-slim AS build
 
 WORKDIR /app
 
-COPY pom.xml .
+COPY pom.xml /app/
+
+
 RUN mvn dependency:go-offline
 
 
 COPY src /app/src
 
+
 RUN mvn clean package -DskipTests
 
 
-FROM openjdk:11-jre-slim
-
-
-WORKDIR /app
-
-
-COPY --from=build /app/target/backend-1.0-SNAPSHOT.jar /app/backend.jar
-
-
-EXPOSE 8080
-
-
-CMD ["java", "-jar", "backend.jar"]
+CMD ["java", "-jar", "target/backend-1.0-SNAPSHOT.jar"]
